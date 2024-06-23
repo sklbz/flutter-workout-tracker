@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 
-class AddWorkoutPage extends StatelessWidget {
-  const AddWorkoutPage({super.key});
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -10,7 +14,12 @@ class AddWorkoutPage extends StatelessWidget {
       home: Scaffold(
         backgroundColor: Color(0xff1e1e2e),
         body: Center(
-          child: ExerciseDropdown(),
+          child: Column(
+            children: [
+              ExerciseDropdown(),
+              ExerciseDropdown(),
+            ],
+          ),
         ),
       ),
     );
@@ -44,7 +53,7 @@ class _ExerciseDropdownState extends State<ExerciseDropdown> {
 
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 20),
+      padding: const EdgeInsets.symmetric(vertical: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -101,28 +110,31 @@ class _ExerciseDropdownState extends State<ExerciseDropdown> {
               },
             ).toList(),
           ),
-					DropdownMenu<int>(
-						label: const Text("Sets"),
-						dropdownMenuEntries: List.generate(6, (index) {
-							int value = index + 1;
-							return DropdownMenuEntry<int>(
-								value: value,
-								label: value.toString(),
-							);							
-						}),
-					),
-					DropdownMenu<int>(
-						label: const Text("Reps"),
-						dropdownMenuEntries: List.generate(30, (index) {
-							int value = index + 1;
-							return DropdownMenuEntry<int>(
-								value: value,
-								label: value.toString(),
-							);							
-						}),
-					)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            child: DropdownMenu<int>(
+              label: const Text("Sets"),
+              dropdownMenuEntries: List.generate(6, (index) {
+                int value = index + 1;
+                return DropdownMenuEntry<int>(
+                  value: value,
+                  label: value.toString(),
+                );
+              }),
+            ),
+          ),
+          DropdownMenu<int>(
+            label: const Text("Reps"),
+            dropdownMenuEntries: List.generate(30, (index) {
+              int value = index + 1;
+              return DropdownMenuEntry<int>(
+                value: value,
+                label: value.toString(),
+              );
+            }),
+          )
         ],
-			),
+      ),
     );
   }
 }
