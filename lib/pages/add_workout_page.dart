@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class AddWorkoutPage extends StatelessWidget {
   const AddWorkoutPage({super.key});
 
-  @override
+	@override
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -46,6 +46,8 @@ class ExerciseDropdown extends StatefulWidget {
 class _ExerciseDropdownState extends State<ExerciseDropdown> {
   final TextEditingController exerciceController = TextEditingController();
   ExerciseLabel? selectedExercise;
+  int? selectedSetCount;
+  int? selectedRepCount;
 
   Widget build(BuildContext context) {
     return Padding(
@@ -110,6 +112,11 @@ class _ExerciseDropdownState extends State<ExerciseDropdown> {
             padding: const EdgeInsets.symmetric(horizontal: 15),
             child: Dropdown(
               label: "Sets",
+              onSelected: (dynamic setCount) {
+                setState(() {
+                  selectedSetCount = setCount;
+                });
+              },
               dropdownMenuEntries: List.generate(6, (index) {
                 int value = index + 1;
                 return DropdownMenuEntry<int>(
@@ -121,6 +128,11 @@ class _ExerciseDropdownState extends State<ExerciseDropdown> {
           ),
           Dropdown(
             label: "Reps",
+            onSelected: (dynamic repCount) {
+              setState(() {
+                selectedRepCount = repCount;
+              });
+            },
             dropdownMenuEntries: List.generate(30, (index) {
               int value = index + 1;
               return DropdownMenuEntry<int>(
@@ -138,18 +150,22 @@ class _ExerciseDropdownState extends State<ExerciseDropdown> {
 class Dropdown extends StatelessWidget {
   final String label;
   final List<DropdownMenuEntry> dropdownMenuEntries;
+  final void Function(dynamic) onSelected;
+  final bool? requestFocusOnTap;
 
   const Dropdown({
     required this.label,
     required this.dropdownMenuEntries,
+    required this.onSelected,
+    this.requestFocusOnTap,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
-    return DropdownMenu(
-      label: Text(label),
-      dropdownMenuEntries: List.generate(dropdownMenuEntries.length, (index) {
+    List<DropdownMenuEntry> styledEntries = List.generate(
+      dropdownMenuEntries.length,
+      (index) {
         DropdownMenuEntry _entry = dropdownMenuEntries[index];
         return DropdownMenuEntry(
           value: _entry.value,
@@ -159,8 +175,16 @@ class Dropdown extends StatelessWidget {
             foregroundColor: Color(0xffcdd6f4),
           ),
         );
-      }),
+      },
+    );
+
+    return DropdownMenu(
+      label: Text(label),
+      requestFocusOnTap: requestFocusOnTap,
+      dropdownMenuEntries: styledEntries,
+      onSelected: onSelected,
       /*------------UNCHANGEABLE VALUES------------------*/
+      enableFilter: true,
       textStyle: TextStyle(
         color: Color(0xffcdd6f4),
       ),
