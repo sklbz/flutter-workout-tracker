@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class AddWorkoutPage extends StatelessWidget {
+  const AddWorkoutPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,37 +10,37 @@ class MyApp extends StatelessWidget {
       home: Scaffold(
         backgroundColor: Color(0xff1e1e2e),
         body: Center(
-          child: ExerciceDropdown(),
+          child: ExerciseDropdown(),
         ),
       ),
     );
   }
 }
 
-enum ExerciceLabel {
+enum ExerciseLabel {
   lowBarSquat("low bar squat"),
   highBarSquat("high bar squat"),
   frontSquat("front squat"),
   benchPress("barbell bench press"),
-  dumbellBenchPress("dumbell bench press"),
+  dumbbellBenchPress("dumbbell bench press"),
   deadlift("deadlift"),
   sumoDeadlift("sumo deadlift"),
   trapBarDeadlift("trap bar deadlift");
 
-  const ExerciceLabel(this.label);
+  const ExerciseLabel(this.label);
   final String label;
 }
 
-class ExerciceDropdown extends StatefulWidget {
-  const ExerciceDropdown({super.key});
+class ExerciseDropdown extends StatefulWidget {
+  const ExerciseDropdown({super.key});
 
   @override
-  State<ExerciceDropdown> createState() => _ExerciceDropdownState();
+  State<ExerciseDropdown> createState() => _ExerciseDropdownState();
 }
 
-class _ExerciceDropdownState extends State<ExerciceDropdown> {
+class _ExerciseDropdownState extends State<ExerciseDropdown> {
   final TextEditingController exerciceController = TextEditingController();
-  ExerciceLabel? selectedExercice;
+  ExerciseLabel? selectedExercise;
 
   Widget build(BuildContext context) {
     return Padding(
@@ -52,11 +48,11 @@ class _ExerciceDropdownState extends State<ExerciceDropdown> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          DropdownMenu<ExerciceLabel>(
+          DropdownMenu<ExerciseLabel>(
             controller: exerciceController,
             enableFilter: true,
             requestFocusOnTap: true,
-            label: const Text('Exercice'),
+            label: const Text('Exercise'),
             textStyle: TextStyle(
               color: Color(0xffcdd6f4),
             ),
@@ -84,20 +80,20 @@ class _ExerciceDropdownState extends State<ExerciceDropdown> {
                 ),
               ),
             ),
-            onSelected: (ExerciceLabel? exercice) {
+            onSelected: (ExerciseLabel? exercise) {
               setState(() {
-                selectedExercice = exercice;
+                selectedExercise = exercise;
               });
             },
             menuStyle: MenuStyle(
               backgroundColor: WidgetStateProperty.all(Color(0xffcdd6f4)),
             ),
             dropdownMenuEntries:
-                ExerciceLabel.values.map<DropdownMenuEntry<ExerciceLabel>>(
-              (ExerciceLabel exercice) {
-                return DropdownMenuEntry<ExerciceLabel>(
-                    value: exercice,
-                    label: exercice.label,
+                ExerciseLabel.values.map<DropdownMenuEntry<ExerciseLabel>>(
+              (ExerciseLabel exercise) {
+                return DropdownMenuEntry<ExerciseLabel>(
+                    value: exercise,
+                    label: exercise.label,
                     style: MenuItemButton.styleFrom(
                       backgroundColor: Color(0xff1e1e2e),
                       foregroundColor: Color(0xffcdd6f4),
@@ -105,8 +101,28 @@ class _ExerciceDropdownState extends State<ExerciceDropdown> {
               },
             ).toList(),
           ),
+					DropdownMenu<int>(
+						label: const Text("Sets"),
+						dropdownMenuEntries: List.generate(6, (index) {
+							int value = index + 1;
+							return DropdownMenuEntry<int>(
+								value: value,
+								label: value.toString(),
+							);							
+						}),
+					),
+					DropdownMenu<int>(
+						label: const Text("Reps"),
+						dropdownMenuEntries: List.generate(30, (index) {
+							int value = index + 1;
+							return DropdownMenuEntry<int>(
+								value: value,
+								label: value.toString(),
+							);							
+						}),
+					)
         ],
-      ),
+			),
     );
   }
 }
