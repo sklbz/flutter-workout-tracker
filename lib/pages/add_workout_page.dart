@@ -75,13 +75,13 @@ class _ExerciseDropdownState extends State<ExerciseDropdown> {
               enabledBorder: OutlineInputBorder(
                 borderSide: BorderSide(
                   color: Color(0xff6750a4),
-                  width: 1.0,
+                  width: 0.5,
                 ),
               ),
               focusedBorder: OutlineInputBorder(
                 borderSide: BorderSide(
                   color: Color(0xff6750a4),
-                  width: 1.5,
+                  width: 1.0,
                 ),
               ),
             ),
@@ -108,8 +108,8 @@ class _ExerciseDropdownState extends State<ExerciseDropdown> {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15),
-            child: DropdownMenu<int>(
-              label: const Text("Sets"),
+            child: Dropdown(
+              label: "Sets",
               dropdownMenuEntries: List.generate(6, (index) {
                 int value = index + 1;
                 return DropdownMenuEntry<int>(
@@ -119,8 +119,8 @@ class _ExerciseDropdownState extends State<ExerciseDropdown> {
               }),
             ),
           ),
-          DropdownMenu<int>(
-            label: const Text("Reps"),
+          Dropdown(
+            label: "Reps",
             dropdownMenuEntries: List.generate(30, (index) {
               int value = index + 1;
               return DropdownMenuEntry<int>(
@@ -128,8 +128,68 @@ class _ExerciseDropdownState extends State<ExerciseDropdown> {
                 label: value.toString(),
               );
             }),
-          )
+          ),
         ],
+      ),
+    );
+  }
+}
+
+class Dropdown extends StatelessWidget {
+  final String label;
+  final List<DropdownMenuEntry> dropdownMenuEntries;
+
+  const Dropdown({
+    required this.label,
+    required this.dropdownMenuEntries,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return DropdownMenu(
+      label: Text(label),
+      dropdownMenuEntries: List.generate(dropdownMenuEntries.length, (index) {
+        DropdownMenuEntry _entry = dropdownMenuEntries[index];
+        return DropdownMenuEntry(
+          value: _entry.value,
+          label: _entry.label,
+          style: MenuItemButton.styleFrom(
+            backgroundColor: Color(0xff1e1e2e),
+            foregroundColor: Color(0xffcdd6f4),
+          ),
+        );
+      }),
+      /*------------UNCHANGEABLE VALUES------------------*/
+      textStyle: TextStyle(
+        color: Color(0xffcdd6f4),
+      ),
+      trailingIcon: Icon(Icons.fitness_center),
+      selectedTrailingIcon: RotatedBox(
+        quarterTurns: 1,
+        child: Icon(Icons.fitness_center),
+      ),
+      menuStyle: MenuStyle(
+        backgroundColor: WidgetStateProperty.all(Color(0xffcdd6f4)),
+      ),
+      inputDecorationTheme: const InputDecorationTheme(
+        filled: false,
+        labelStyle: TextStyle(
+          color: Color(0xff6750a4),
+        ),
+        contentPadding: EdgeInsets.all(5.0),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: Color(0xff6750a4),
+            width: 0.5,
+          ),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: Color(0xff6750a4),
+            width: 1.0,
+          ),
+        ),
       ),
     );
   }
