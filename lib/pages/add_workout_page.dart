@@ -44,7 +44,7 @@ class ExerciseDropdown extends StatefulWidget {
 }
 
 class _ExerciseDropdownState extends State<ExerciseDropdown> {
-  final TextEditingController exerciceController = TextEditingController();
+  // final TextEditingController exerciceController = TextEditingController();
   ExerciseLabel? selectedExercise;
   int? selectedSetCount;
   int? selectedRepCount;
@@ -55,9 +55,14 @@ class _ExerciseDropdownState extends State<ExerciseDropdown> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text("$selectedExercise x $selectedSetCount x $selectedRepCount"),
+          Text(
+            "${selectedExercise?.label} x $selectedSetCount x $selectedRepCount",
+            style: TextStyle(
+              color: Color(0xffcdd6f4),
+            ),
+          ),
           Dropdown(
-            controller: exerciceController,
+            // controller: exerciceController,
             requestFocusOnTap: true,
             label: 'Exercise',
             onSelected: (dynamic exercise) {
@@ -78,23 +83,20 @@ class _ExerciseDropdownState extends State<ExerciseDropdown> {
               },
             ).toList(),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
-            child: Dropdown(
-              label: "Sets",
-              onSelected: (dynamic setCount) {
-                setState(() {
-                  selectedSetCount = setCount;
-                });
-              },
-              dropdownMenuEntries: List.generate(6, (index) {
-                int value = index + 1;
-                return DropdownMenuEntry<int>(
-                  value: value,
-                  label: value.toString(),
-                );
-              }),
-            ),
+          Dropdown(
+            label: "Sets",
+            onSelected: (dynamic setCount) {
+              setState(() {
+                selectedSetCount = setCount;
+              });
+            },
+            dropdownMenuEntries: List.generate(6, (index) {
+              int value = index + 1;
+              return DropdownMenuEntry<int>(
+                value: value,
+                label: value.toString(),
+              );
+            }),
           ),
           Dropdown(
             label: "Reps",
@@ -122,13 +124,13 @@ class Dropdown extends StatelessWidget {
   final List<DropdownMenuEntry> dropdownMenuEntries;
   final void Function(dynamic) onSelected;
   final bool? requestFocusOnTap;
-  final TextEditingController? controller;
+  //final TextEditingController? controller;
 
   const Dropdown({
     required this.label,
     required this.dropdownMenuEntries,
     required this.onSelected,
-    this.controller,
+    //this.controller,
     this.requestFocusOnTap,
     super.key,
   });
@@ -150,41 +152,44 @@ class Dropdown extends StatelessWidget {
       },
     );
 
-    return DropdownMenu(
-      label: Text(label),
-      requestFocusOnTap: requestFocusOnTap,
-      dropdownMenuEntries: styledEntries,
-      onSelected: onSelected,
-      controller: controller,
-      /*------------UNCHANGEABLE VALUES------------------*/
-      enableFilter: true,
-      textStyle: TextStyle(
-        color: Color(0xffcdd6f4),
-      ),
-      trailingIcon: Icon(Icons.fitness_center),
-      selectedTrailingIcon: RotatedBox(
-        quarterTurns: 1,
-        child: Icon(Icons.fitness_center),
-      ),
-      menuStyle: MenuStyle(
-        backgroundColor: WidgetStateProperty.all(Color(0xffcdd6f4)),
-      ),
-      inputDecorationTheme: const InputDecorationTheme(
-        filled: false,
-        labelStyle: TextStyle(
-          color: Color(0xff6750a4),
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 7.5),
+      child: DropdownMenu(
+        label: Text(label),
+        requestFocusOnTap: requestFocusOnTap,
+        dropdownMenuEntries: styledEntries,
+        onSelected: onSelected,
+        // controller: controller,
+        /*------------UNCHANGEABLE VALUES------------------*/
+        enableFilter: true,
+        textStyle: TextStyle(
+          color: Color(0xffcdd6f4),
         ),
-        contentPadding: EdgeInsets.all(5.0),
-        enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(
+        trailingIcon: Icon(Icons.fitness_center),
+        selectedTrailingIcon: RotatedBox(
+          quarterTurns: 1,
+          child: Icon(Icons.fitness_center),
+        ),
+        menuStyle: MenuStyle(
+          backgroundColor: WidgetStateProperty.all(Color(0xffcdd6f4)),
+        ),
+        inputDecorationTheme: const InputDecorationTheme(
+          filled: false,
+          labelStyle: TextStyle(
             color: Color(0xff6750a4),
-            width: 0.5,
           ),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(
-            color: Color(0xff6750a4),
-            width: 1.0,
+          contentPadding: EdgeInsets.all(5.0),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Color(0xff6750a4),
+              width: 0.5,
+            ),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Color(0xff6750a4),
+              width: 1.0,
+            ),
           ),
         ),
       ),
