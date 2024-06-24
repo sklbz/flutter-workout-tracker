@@ -171,7 +171,7 @@ class Dropdown extends StatelessWidget {
           child: Icon(Icons.fitness_center),
         ),
         menuStyle: MenuStyle(
-          backgroundColor: WidgetStateProperty.all(Color(0xffcdd6f4)),
+					backgroundColor: WidgetStateProperty.all(Color(0xff2c2d3d)),
         ),
         inputDecorationTheme: const InputDecorationTheme(
           filled: false,
