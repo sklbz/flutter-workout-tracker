@@ -55,46 +55,16 @@ class _ExerciseDropdownState extends State<ExerciseDropdown> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          DropdownMenu<ExerciseLabel>(
+          Text("$selectedExercise x $selectedSetCount x $selectedRepCount"),
+          Dropdown(
             controller: exerciceController,
-            enableFilter: true,
             requestFocusOnTap: true,
-            label: const Text('Exercise'),
-            textStyle: TextStyle(
-              color: Color(0xffcdd6f4),
-            ),
-            trailingIcon: Icon(Icons.fitness_center),
-            selectedTrailingIcon: RotatedBox(
-              quarterTurns: 1,
-              child: Icon(Icons.fitness_center),
-            ),
-            inputDecorationTheme: const InputDecorationTheme(
-              filled: false,
-              labelStyle: TextStyle(
-                color: Color(0xff6750a4),
-              ),
-              contentPadding: EdgeInsets.all(5.0),
-              enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-                  color: Color(0xff6750a4),
-                  width: 0.5,
-                ),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-                  color: Color(0xff6750a4),
-                  width: 1.0,
-                ),
-              ),
-            ),
-            onSelected: (ExerciseLabel? exercise) {
+            label: 'Exercise',
+            onSelected: (dynamic exercise) {
               setState(() {
                 selectedExercise = exercise;
               });
             },
-            menuStyle: MenuStyle(
-              backgroundColor: WidgetStateProperty.all(Color(0xffcdd6f4)),
-            ),
             dropdownMenuEntries:
                 ExerciseLabel.values.map<DropdownMenuEntry<ExerciseLabel>>(
               (ExerciseLabel exercise) {
@@ -152,11 +122,13 @@ class Dropdown extends StatelessWidget {
   final List<DropdownMenuEntry> dropdownMenuEntries;
   final void Function(dynamic) onSelected;
   final bool? requestFocusOnTap;
+  final TextEditingController? controller;
 
   const Dropdown({
     required this.label,
     required this.dropdownMenuEntries,
     required this.onSelected,
+    this.controller,
     this.requestFocusOnTap,
     super.key,
   });
@@ -183,6 +155,7 @@ class Dropdown extends StatelessWidget {
       requestFocusOnTap: requestFocusOnTap,
       dropdownMenuEntries: styledEntries,
       onSelected: onSelected,
+      controller: controller,
       /*------------UNCHANGEABLE VALUES------------------*/
       enableFilter: true,
       textStyle: TextStyle(
